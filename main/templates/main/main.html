@@ -1,0 +1,83 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container_list clearfix">
+
+        {% if authorized %}
+        <!-- add new record -->
+        <div id="modal_window">
+        
+            <form id="form_add" class="clearfix" enctype="multipart/form-data" name="form_add" method="POST">
+                <div class="header clearfix">
+                    <h5>Add new record</h5>
+                    <div class="button anim" id="hide_modal_window">
+                        &#215;
+                    </div>
+                </div>
+                <div class="left_side">
+                    <div id="add_image" class="anim">+
+                        {{ add_form.image }}
+                        <div id="pre_img"></div>
+                    </div>
+                </div>
+                <div class="right_side">
+                    {% csrf_token %}
+                    {{ add_form.name }}
+                    {{ add_form.author }}
+                    {{ add_form.genre }}
+                    {{ add_form.desc }}
+                </div>
+                <div class="footer clearfix">
+                    <div id="add_rec_button" class="anim">Add</div>
+                </div>
+            </form>
+        </div>
+        <!-- add new record -->
+        {% endif %}
+
+        <div class="left col">
+            <div class="ext_info" id="left_bar_stick">
+                <h3>List {{ name }}</h3>
+                <p>
+                    В 1926 году магический зоолог Ньют Саламандер занимается классификацией фантастических зверей и существ. Он прибывает в Нью-Йорк с волшебным чемоданом, содержащим в себе некоторое количество опасных магических тварей и их естественные среды обитания. Когда эти существа сбегают из чемодана, американские волшебные власти из «Магического Конгресса Управления по Северной Америке» (МАКУСА) бросаются в погоню за Ньютом.
+                </p>
+            </div>
+        </div>
+        <div class="right col">
+    
+        {% for book in books %}
+
+            <div class="list_obj clearfix">
+                <div class="image" style="background-image: url({% static book.imageUrl %})"></div>
+                <div class="data clearfix">
+                    <h5 class="name">{{ book.name   }}</h5>
+                    <div class="attr_block clearfix">
+                        <label>#Author: {{ book.author }}</label>
+                        <label>#Genre: {{ book.genre }}</label>
+                    </div>
+                    <p class="desc_short">
+                        {{ book.desc }}
+                    </p>
+                </div>
+                <a class="view anim" href="{% url 'single_object' book_id=book.id %}" target="_blank" >View</a>
+            </div>
+
+        {% endfor %}
+
+            <div id="loading_block"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'main/script.js' %}">
+    </script>
+{% endblock %}

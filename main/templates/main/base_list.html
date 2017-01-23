@@ -1,0 +1,20 @@
+{% load static %}
+{% for book in books %}
+
+    <div class="list_obj clearfix">
+        <div class="image" style="background-image: url({% static book.imageUrl %})"></div>
+        <div class="data clearfix">
+            <h5 class="name">{{ book.name }}</h5>
+            <div class="attr_block clearfix">
+                <label>#Author: {{ book.author }}</label>
+                <label>#Genre: {{ book.genre }}</label>
+            </div>
+            <p class="desc_short">
+                {{ book.desc }}
+            </p>
+        </div>
+        <a class="view anim" href="{% url 'single_object' book_id=book.id %}" target="_blank">View</a>
+    </div>
+{% empty %}
+N/A
+{% endfor %}
